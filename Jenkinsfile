@@ -26,7 +26,10 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo 'Building...'
+                script {
+                    echo "Version of Jenkins is ${appVersion}"
+                }
+                
             }
         }
 
