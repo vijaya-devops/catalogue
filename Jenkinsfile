@@ -5,9 +5,9 @@ pipeline {
         }
     }
 
-    // environment {
-    //     COURSE = 'Jenkins'
-    // }
+     environment {
+        def appVersion =  ""
+     }
 
     options {
         disableConcurrentBuilds()
@@ -24,15 +24,6 @@ pipeline {
 
     stages {
 
-        stage('Build') {
-            steps {
-                script {
-                    echo "Version of Jenkins is ${appVersion}"
-                }
-                
-            }
-        }
-
         stage('Read version') {
             steps {
                 script {
@@ -40,10 +31,21 @@ pipeline {
                     def packageJson = readJSON file: 'package.json'
 
                     // Access specific properties
-                    def appVersion = packageJson.version
+                    appVersion = packageJson.version
 
                     echo "Application Version: ${appVersion}"
                 }
+            }
+        }
+
+        stage('Install dependencies') {
+            steps {
+                script {
+                    sh """
+                    npm install
+                    """
+                }
+                
             }
         }
 
