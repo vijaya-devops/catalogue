@@ -49,10 +49,13 @@ pipeline {
             }
         }
 
-        stage('Test') {
+        stage('Docker Build') {
             steps {
                 script {
-                    echo 'Testing..'
+                    echo 'Building Docker image..'
+                    sh """
+                    docker build -t catalogue:${appVersion} .
+                    """
                 }
             }
         }
